@@ -1,34 +1,64 @@
 import { useEffect, useRef, useState } from "react";
-import { TimeLineNodeRenderer } from "../templates/TimeLineNodeRenderer";
+import { ErrorBoundary } from "react-error-boundary";
 import { ReactFlowProvider } from "@xyflow/react";
+import { debounce } from "lodash-es";
+import { TimeLineNodeRenderer } from "../templates/TimeLineNodeRenderer";
+
+interface ContainerSize {
+  width: number;
+  height: number;
+}
+
+const TimelineErrorFallback = () => (
+  <div role="alert" className="p-4 text-red-500">
+    <span>Failed to load timeline editor. Please try refreshing the page.</span>
+  </div>
+);
+
 export function TimeLineEditor() {
   const flowRef = useRef<HTMLDivElement | null>(null);
-  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+  const [containerSize, setContainerSize] = useState<ContainerSize>(() => ({
+    width: flowRef.current?.parentElement?.clientWidth || 0,
+    height: flowRef.current?.parentElement?.clientHeight || 0,
+  }));
   function getCurrentDivSize() {
     if (flowRef.current) {
-      console.log(flowRef.current.parentElement?.clientHeight);
-      console.log(flowRef.current.parentElement?.clientWidth);
+      const parent = flowRef.current.parentElement;
+      if (!parent) {
+        console.warn("Timeline container must have a parent element");
+        return;
+      }
       setContainerSize({
-        width: flowRef.current.parentElement?.clientWidth || 0,
-        height: flowRef.current.parentElement?.clientHeight || 0,
+        width: parent.clientWidth,
+        height: parent.clientHeight,
       });
     }
   }
   useEffect(() => {
-    window.addEventListener("resize", getCurrentDivSize);
+    const debouncedResize = debounce(getCurrentDivSize, 100);
+    window.addEventListener("resize", debouncedResize);
     getCurrentDivSize();
     return () => {
-      window.removeEventListener("resize", getCurrentDivSize);
+      window.removeEventListener("resize", debouncedResize);
+      debouncedResize.cancel();
     };
   }, []);
   return (
     <div className="w-full flex" ref={flowRef}>
-      <ReactFlowProvider>
-        <TimeLineNodeRenderer
-          width={containerSize.width}
-          height={containerSize.height}
-        />
-      </ReactFlowProvider>
+      <ErrorBoundary FallbackComponent={TimelineErrorFallback}>
+        <ReactFlowProvider>
+          {containerSize.width === 0 || containerSize.height === 0 ? (
+            <div className="p-4">
+              <span>Loading timeline editor...</span>
+            </div>
+          ) : (
+            <TimeLineNodeRenderer
+              width={containerSize.width}
+              height={containerSize.height}
+            />
+          )}
+        </ReactFlowProvider>
+      </ErrorBoundary>
     </div>
   );
 }

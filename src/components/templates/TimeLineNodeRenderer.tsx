@@ -14,18 +14,61 @@ import {
 import { v4 as uuid } from "uuid";
 import { Button } from "../atoms/Button";
 import { useCallback, useEffect, useState } from "react";
+import { debounce } from "lodash-es";
 import "@xyflow/react/dist/style.css";
 
-const node1Id = uuid();
-const node2Id = uuid();
+interface TimelineNode {
+  id: string;
+  position: { x: number; y: number };
+  data: { label: string };
+}
 
-const initialNodes = [
-  { id: node1Id, position: { x: 0, y: 0 }, data: { label: "1" } },
-  { id: node2Id, position: { x: 0, y: 100 }, data: { label: "2" } },
+interface TimelineEdge {
+  id: string;
+  source: string;
+  target: string;
+  animated: boolean;
+}
+
+const DEFAULT_NODE_DISTANCE = 100;
+const DEFAULT_NODE_X = 0;
+
+const createInitialNodes = (startY = 0): TimelineNode[] => [
+  {
+    id: uuid(),
+    position: { x: DEFAULT_NODE_X, y: startY },
+    data: { label: "1" },
+  },
+  {
+    id: uuid(),
+    position: { x: DEFAULT_NODE_X, y: startY + DEFAULT_NODE_DISTANCE },
+    data: { label: "2" },
+  },
 ];
-const initialEdges = [
-  { id: "e1-2", source: node1Id, target: node2Id, animated: true },
+const createInitialEdges = (nodes: TimelineNode[]): TimelineEdge[] => [
+  {
+    id: `e-${nodes[0].id}-${nodes[1].id}`,
+    source: nodes[0].id,
+    target: nodes[1].id,
+    animated: true,
+  },
 ];
+
+const debouncedUpdate = debounce(
+  (
+    nodes: TimelineNode[],
+    selectedNode: string,
+    nodeLabel: string,
+    setNodes: (nodes: TimelineNode[]) => void
+  ) => {
+    setNodes(
+      nodes.map((nd) =>
+        nd.id === selectedNode ? { ...nd, data: { label: nodeLabel } } : nd
+      )
+    );
+  },
+  300
+);
 
 export function TimeLineNodeRenderer({
   width,
@@ -34,8 +77,10 @@ export function TimeLineNodeRenderer({
   width: number;
   height: number;
 }) {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState(createInitialNodes());
+  const [edges, setEdges, onEdgesChange] = useEdgesState(
+    createInitialEdges(nodes)
+  );
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [nodeLabel, setNodeLabel] = useState("");
   function addNode() {
@@ -48,31 +93,39 @@ export function TimeLineNodeRenderer({
     const newNodes = [...nodes, newNode];
     setNodes(newNodes);
   }
+
   useEffect(() => {
     if (selectedNode) {
-      setNodes((nds) => {
-        return nds.map((nd) => {
-          if (nd.id === selectedNode) {
-            return { ...nd, data: { label: nodeLabel } };
-          }
-          return nd;
-        });
-      });
+      debouncedUpdate(nodes, selectedNode, nodeLabel, setNodes);
     }
-  }, [nodeLabel, setNodes]);
+  }, [nodeLabel, setNodes, selectedNode, nodes]);
   const onChange = useCallback(
     ({ nodes }: { nodes: Node[]; edges: Edge[] }) => {
-      if (nodes.length > 0) {
-        setSelectedNode(nodes[0].id);
-        const nodeLabel = nodes[0].data.label as string;
-        setNodeLabel(nodeLabel);
+      try {
+        if (nodes.length > 0) {
+          const s = nodes[0];
+          if (!s?.data?.label) {
+            console.error("Invalid node data");
+            return;
+          }
+          setSelectedNode(s.id);
+          setNodeLabel(s.data.label as string);
+        } else {
+          setSelectedNode(null);
+          setNodeLabel("");
+        }
+      } catch (error) {
+        console.error(error);
       }
     },
-    []
+    [setSelectedNode, setNodeLabel]
   );
   useOnSelectionChange({ onChange });
   const onConnect = useCallback(
     (connection: Connection) => {
+      if (!connection.source || !connection.target) {
+        console.warn("Invalid connection");
+      }
       setEdges((oldEdges) =>
         addEdge({ ...connection, animated: true }, oldEdges)
       );
@@ -85,6 +138,8 @@ export function TimeLineNodeRenderer({
         <div
           className="border rounded"
           style={{ width: `${width}px`, height: `${height}px` }}
+          role="application"
+          aria-label="Timeline editor"
         >
           <ReactFlow
             nodes={nodes}
@@ -99,7 +154,6 @@ export function TimeLineNodeRenderer({
           </ReactFlow>
         </div>
       )}
-      <div></div>
       <div className="absolute top-4 left-4 flex flex-col gap-4">
         <Button onClick={addNode} variant="primary">
           Add Event
@@ -119,6 +173,8 @@ export function TimeLineNodeRenderer({
               onChange={(e) => setNodeLabel(e.target.value)}
               placeholder="Event Label"
               autoFocus
+              aria-label="Edit event label"
+              role="textbox"
             />
           </div>
         )}
