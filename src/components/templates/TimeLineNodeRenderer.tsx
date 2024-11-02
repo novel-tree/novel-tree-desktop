@@ -98,6 +98,9 @@ export function TimeLineNodeRenderer({
     if (selectedNode) {
       debouncedUpdate(nodes, selectedNode, nodeLabel, setNodes);
     }
+    return () => {
+      debouncedUpdate.cancel();
+    };
   }, [nodeLabel, setNodes, selectedNode, nodes]);
   const onChange = useCallback(
     ({ nodes }: { nodes: Node[]; edges: Edge[] }) => {
@@ -125,6 +128,7 @@ export function TimeLineNodeRenderer({
     (connection: Connection) => {
       if (!connection.source || !connection.target) {
         console.warn("Invalid connection");
+        return;
       }
       setEdges((oldEdges) =>
         addEdge({ ...connection, animated: true }, oldEdges)

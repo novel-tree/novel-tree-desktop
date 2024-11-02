@@ -17,10 +17,10 @@ const TimelineErrorFallback = () => (
 
 export function TimeLineEditor() {
   const flowRef = useRef<HTMLDivElement | null>(null);
-  const [containerSize, setContainerSize] = useState<ContainerSize>(() => ({
-    width: flowRef.current?.parentElement?.clientWidth || 0,
-    height: flowRef.current?.parentElement?.clientHeight || 0,
-  }));
+  const [containerSize, setContainerSize] = useState<ContainerSize>({
+    width: 0,
+    height: 0,
+  });
   function getCurrentDivSize() {
     if (flowRef.current) {
       const parent = flowRef.current.parentElement;
