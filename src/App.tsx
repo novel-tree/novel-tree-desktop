@@ -3,6 +3,7 @@ import { useAtomValue } from "jotai";
 import { modes } from "./states/modes";
 import { Home } from "./components/pages/Home";
 import { TimeLineEditor } from "./components/pages/TimeLineEditor";
+import { SettingsEditor } from "./components/pages/SettingsEditor";
 import { SideBar } from "./components/templates/SideBar";
 import "./App.css";
 
@@ -13,6 +14,8 @@ function ContentHandler() {
   switch (checkMode?.id) {
     case "timeline":
       return <TimeLineEditor />;
+    case "setting":
+      return <SettingsEditor />;
     default:
       return <Home />;
   }

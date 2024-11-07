@@ -12,7 +12,7 @@ import {
   ReactFlow,
 } from "@xyflow/react";
 import { v4 as uuid } from "uuid";
-import { Button } from "../atoms/Button";
+import { Button } from "../Buttons/Button";
 import { useCallback, useEffect, useState } from "react";
 import { debounce } from "lodash-es";
 import "@xyflow/react/dist/style.css";
