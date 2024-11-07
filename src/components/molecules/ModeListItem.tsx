@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import classNames from "classnames";
-import { Timeline, Script, Setting } from "../atoms/icons";
+import { Ban, ChartColumnStacked, ScrollText, Workflow } from "lucide-react";
 
 interface ModeListItemProps {
   icon: string;
@@ -11,6 +11,13 @@ interface ModeListItemProps {
 }
 
 const size = 40;
+
+function handleIconClass(selected: boolean) {
+  return classNames(
+    selected ? "text-gray-500" : "text-gray-300",
+    "hover:text-gray-500"
+  );
+}
 
 export const ModeListItem: React.FC<ModeListItemProps> = ({
   icon,
@@ -23,32 +30,21 @@ export const ModeListItem: React.FC<ModeListItemProps> = ({
     switch (icon) {
       case "script":
         return () => (
-          <Script
-            className={classNames(selected ? "fill-gray-500" : "fill-gray-300")}
-            size={size}
-          />
+          <ScrollText className={handleIconClass(selected)} size={size} />
         );
       case "setting":
         return () => (
-          <Setting
-            className={classNames(selected ? "fill-gray-500" : "fill-gray-300")}
+          <ChartColumnStacked
+            className={handleIconClass(selected)}
             size={size}
           />
         );
       case "timeline":
         return () => (
-          <Timeline
-            className={classNames(selected ? "fill-gray-500" : "fill-gray-300")}
-            size={size}
-          />
+          <Workflow className={handleIconClass(selected)} size={size} />
         );
       default:
-        return () => (
-          <Script
-            className={classNames(selected ? "fill-gray-500" : "fill-gray-300")}
-            size={size}
-          />
-        );
+        return () => <Ban className={handleIconClass(selected)} size={size} />;
     }
   }, [icon, selected]);
   return (

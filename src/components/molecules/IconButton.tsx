@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import { File, Folder } from "../atoms/icons";
+import { File, Folder } from "lucide-react";
 import { Typography } from "../atoms/Typography";
 
 type icon = "folder" | "file";
@@ -21,8 +21,8 @@ export const IconButton: React.FC<IconButtonProps> = ({
   children,
 }) => {
   const iconColor = classNames(
-    fill === "primary" && "fill-blue-500",
-    fill === "secondary" && "fill-gray-800",
+    fill === "primary" && "text-blue-500",
+    fill === "secondary" && "text-gray-800",
     disabled && "opacity-50 cursor-not-allowed"
   );
   function getIconComponent(icon: icon) {
@@ -42,8 +42,8 @@ export const IconButton: React.FC<IconButtonProps> = ({
         fill === "primary"
           ? "text-blue-500"
           : fill === "secondary"
-            ? "text-gray-800"
-            : "text-gray-500",
+          ? "text-gray-800"
+          : "text-gray-500",
         "flex items-center gap-1 px-2 py-0 rounded-md w-full"
       )}
       disabled={disabled}
