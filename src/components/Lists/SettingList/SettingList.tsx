@@ -2,10 +2,10 @@ import { FC, useEffect } from "react";
 import { Circle } from "lucide-react";
 import { ListContainer } from "../ListContainer/ListContainer";
 import { TextButton } from "../../Buttons";
-import { SettingItem } from "../../../types/settings";
+import { ISettingItem } from "../../../types/settings";
 
 interface CardHeaderProps {
-  settings: SettingItem[];
+  settings: ISettingItem[];
   onClickItem?: (id: string) => void;
 }
 
@@ -14,7 +14,7 @@ export const SettingList: FC<CardHeaderProps> = ({ settings, onClickItem }) => {
     console.log("Settings loaded", settings, onClickItem);
   }, []);
   return (
-    <ListContainer>
+    <ListContainer listName="Setting List">
       {settings.map((item) => (
         <TextButton
           key={item.id}
