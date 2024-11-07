@@ -8,7 +8,7 @@ export const TextButton: FC<TextButtonProps> = ({ children, ...props }) => {
   return (
     <button
       {...props}
-      onClick={props?.onClick}
+      role="button"
       className="relative flex items-center justify-between p-2 w-full hover:bg-gray-200"
     >
       {children}

@@ -15,8 +15,7 @@ export const ListContainer: FC<ListContainerProps> = ({
 }) => {
   return (
     <div
-      className="flex flex-col"
-      style={{ minWidth: width ? `${width}px` : `${DEFAULT_WIDTH}px` }}
+      className={`flex flex-col min-w-[${width || DEFAULT_WIDTH}px]`}
       role="list"
       aria-label={listName}
     >
