@@ -9,10 +9,15 @@ interface CardHeaderProps {
   onClickItem?: (id: string) => void;
 }
 
-export const SettingList: FC<CardHeaderProps> = ({ settings, onClickItem }) => {
+export const SettingList: FC<CardHeaderProps> = (
+  { settings, onClickItem } = {
+    settings: [],
+    onClickItem: () => {},
+  }
+) => {
   useEffect(() => {
     console.log("Settings loaded", settings, onClickItem);
-  }, []);
+  }, [settings, onClickItem]);
   return (
     <ListContainer listName="Setting List">
       {settings.map((item) => (

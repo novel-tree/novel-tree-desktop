@@ -1,11 +1,11 @@
-import { FC, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { Circle } from "lucide-react";
 import classNames from "classnames";
 
 interface CardTitleProps {
   hasUnsavedChanges: boolean;
   message: string;
-  onChange: () => void;
+  onChange: (text: string) => void;
   placeholder?: string;
 }
 
@@ -23,13 +23,16 @@ export const CardTitle: FC<CardTitleProps> = ({
   placeholder,
 }) => {
   const [isEditing, setIsFocused] = useState(false);
+  function handleOnChange(event: ChangeEvent<HTMLInputElement>) {
+    onChange(event.target.value);
+  }
   return (
     <div className={titleClassNames(isEditing)}>
       <input
         className="flex-grow outline-none font-semibold text-2xl leading-none"
         type="text"
         value={message}
-        onChange={onChange}
+        onChange={handleOnChange}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         placeholder={placeholder ? placeholder : "Enter a title"}

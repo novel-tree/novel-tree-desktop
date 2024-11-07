@@ -3,10 +3,10 @@ import { Card } from "../CardContainer/Card";
 import { CardHeader } from "../CardHeader/CardHeader";
 import { CardContent } from "../CardContent/CardContent";
 import { CardTitle } from "../CardTitle/CardTitle";
-import { SettingItem } from "../../../types/settings";
+import { ISettingItem } from "../../../types/settings";
 
 interface SettingCardProps {
-  item: SettingItem;
+  item: ISettingItem;
   hasUnsavedChanges: boolean;
 }
 
@@ -20,13 +20,17 @@ export const SettingCard: FC<SettingCardProps> = ({
         <CardTitle
           message={item.name}
           hasUnsavedChanges={hasUnsavedChanges}
-          onChange={() => {}}
+          onChange={(text: string) => {
+            console.warn("Card title on change not implemented", text);
+          }}
         />
       </CardHeader>
       <CardContent
         description={item.description || ""}
         hasUnsavedChanges={hasUnsavedChanges}
-        onChange={() => {}}
+        onChange={(text: string) => {
+          console.warn("Card content on change not implemented", text);
+        }}
       />
     </Card>
   );
