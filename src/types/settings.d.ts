@@ -1,4 +1,4 @@
-export interface SettingItem {
+export interface ISettingItem {
   id: string;
   name: string;
   description?: string;
@@ -6,10 +6,30 @@ export interface SettingItem {
   isEditing?: boolean;
 }
 
-export interface character extends SettingItem {}
+/** Represents character-specific settings */
+export interface ICharacterSetting extends ISettingItem {
+  // Add character-specific properties
+  characterType?: string;
+  defaultAttributes?: string[];
+}
 
-export interface location extends SettingItem {}
+/** Represents location-specific settings */
+export interface ILocationSetting extends ISettingItem {
+  // Add location-specific properties
+  locationType?: string;
+  defaultProperties?: string[];
+}
 
-export interface item extends SettingItem {}
+/** Represents item-specific settings */
+export interface IItemSetting extends ISettingItem {
+  // Add item-specific properties
+  itemCategory?: string;
+  defaultTraits?: string[];
+}
 
-export interface event extends SettingItem {}
+/** Represents event-specific settings */
+export interface IEventSetting extends ISettingItem {
+  // Add event-specific properties
+  eventType?: string;
+  defaultParameters?: string[];
+}

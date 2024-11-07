@@ -3,28 +3,19 @@ import { Search, Users, MapPin, Briefcase, Calendar, Plus } from "lucide-react";
 import { Button, IconButton } from "../Buttons";
 import { SettingList } from "../Lists";
 import { SettingCard } from "../Cards";
-
-interface SettingItem {
-  id: string;
-  name: string;
-  description?: string;
-  hasUnsavedChanges?: boolean;
-  isEditing?: boolean;
-}
-
-interface character extends SettingItem {}
-
-interface location extends SettingItem {}
-
-interface item extends SettingItem {}
-
-interface event extends SettingItem {}
+import {
+  ISettingItem,
+  ICharacterSetting,
+  ILocationSetting,
+  IItemSetting,
+  IEventSetting,
+} from "../../types/settings";
 
 const mockData: {
-  characters: character[];
-  locations: location[];
-  items: item[];
-  events: event[];
+  characters: ICharacterSetting[];
+  locations: ILocationSetting[];
+  items: IItemSetting[];
+  events: IEventSetting[];
 } = {
   characters: [
     {
@@ -163,7 +154,7 @@ export function SettingsEditor() {
                 item={
                   mockData[activeCategory].find(
                     (item) => item.id === selectedItem
-                  ) as SettingItem
+                  ) as ISettingItem
                 }
                 hasUnsavedChanges={
                   mockData[activeCategory].find(
