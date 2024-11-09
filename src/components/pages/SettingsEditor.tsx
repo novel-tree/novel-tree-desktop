@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, Users, MapPin, Briefcase, Calendar, Plus } from "lucide-react";
+import { Search, Users, MapPin, Gem, Calendar, Plus } from "lucide-react";
 import { Button, IconButton } from "../Buttons";
 import { SettingList } from "../Lists";
 import { SettingCard } from "../Cards";
@@ -97,7 +97,7 @@ export function SettingsEditor() {
       label: "Locations",
       icon: <MapPin className="h-4 w-4" />,
     },
-    { value: "items", label: "Items", icon: <Briefcase className="h-4 w-4" /> },
+    { value: "items", label: "Items", icon: <Gem className="h-4 w-4" /> },
     {
       value: "events",
       label: "Events",
