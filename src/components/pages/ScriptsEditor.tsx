@@ -16,6 +16,7 @@ import {
   Users,
 } from "lucide-react";
 import { Card } from "../Cards/CardContainer/Card";
+import { SidebarCard } from "../Cards";
 import { ContentArea } from "../templates";
 import { ContentHeaderBar } from "../Contents";
 import { IconButtonList, iIconButton } from "../Lists";
@@ -77,11 +78,11 @@ export const ScriptsEditor = () => {
           </Button>
         </ContentHeaderBar>
         <div className="p-2 border-b border-border flex gap-2">
-          <IconButton text="bold" icon={<Bold size={16} />} />
-          <IconButton text="italic" icon={<Italic size={16} />} />
-          <IconButton text="underline" icon={<Underline size={16} />} />
+          <IconButton ariaLabel="bold" icon={<Bold size={16} />} />
+          <IconButton ariaLabel="italic" icon={<Italic size={16} />} />
+          <IconButton ariaLabel="underline" icon={<Underline size={16} />} />
           <VerticalDivider />
-          <IconButton text="copy" icon={<Copy size={16} />} />
+          <IconButton ariaLabel="copy" icon={<Copy size={16} />} />
         </div>
         <div className="flex-1 flex relative">
           <div className="flex-1 p-4" style={{ width: `${splitRatio * 100}%` }}>
@@ -98,70 +99,45 @@ export const ScriptsEditor = () => {
               className="p-2 border-b border-border flex gap-2 bg-white"
               ref={subMenuModeListRef}
             >
-              <IconButton text="scripts" icon={<NotepadText size={16} />} />
-              <IconButton text="characters" icon={<Users size={16} />} />
-              <IconButton text="locations" icon={<MapPin size={16} />} />
-              <IconButton text="items" icon={<Gem size={16} />} />
-              <IconButton text="events" icon={<Calendar size={16} />} />
+              <IconButton
+                ariaLabel="scripts"
+                icon={<NotepadText size={16} />}
+              />
+              <IconButton ariaLabel="characters" icon={<Users size={16} />} />
+              <IconButton ariaLabel="locations" icon={<MapPin size={16} />} />
+              <IconButton ariaLabel="items" icon={<Gem size={16} />} />
+              <IconButton ariaLabel="events" icon={<Calendar size={16} />} />
               <VerticalDivider />
-              <IconButton text="add" icon={<Plus size={16} />} />
+              <IconButton ariaLabel="add" icon={<Plus size={16} />} />
             </div>
             <div
               className="flex flex-col gap-2 p-2 overflow-y-auto"
               style={{ height: `${subMenuHeight}px` }}
             >
               <h3 className="text-lg font-semibold mb-2">Events</h3>
-              <Card>
-                <div className="flex gap-2 p-2">
-                  <div>
-                    <Calendar strokeWidth={1} size={64} />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-semibold">Event Name</h4>
-                    <p className="text-sm text-gray-500">Event Description</p>
-                  </div>
-                </div>
-              </Card>
+              <SidebarCard
+                title="Event Name"
+                icon={<Calendar strokeWidth={1} size={64} />}
+                description="Event Description"
+              />
               <h3 className="text-lg font-semibold mb-2">Items</h3>
-              <Card>
-                <div className="flex gap-2 p-2">
-                  <div>
-                    <Gem strokeWidth={1} size={64} />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-semibold">Item Name</h4>
-                    <p className="text-sm text-gray-500">Item Description</p>
-                  </div>
-                </div>
-              </Card>
+              <SidebarCard
+                title="Item Name"
+                icon={<Gem strokeWidth={1} size={64} />}
+                description="Item Description"
+              />
               <h3 className="text-lg font-semibold mb-2">Locations</h3>
-              <Card>
-                <div className="flex gap-2 p-2">
-                  <div>
-                    <MapPin strokeWidth={1} size={64} />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-semibold">Location Name</h4>
-                    <p className="text-sm text-gray-500">
-                      Location Description
-                    </p>
-                  </div>
-                </div>
-              </Card>
+              <SidebarCard
+                title="Location Name"
+                icon={<MapPin strokeWidth={1} size={64} />}
+                description="Location Description"
+              />
               <h3 className="text-lg font-semibold mb-2">Characters</h3>
-              <Card>
-                <div className="flex gap-2 p-2">
-                  <div>
-                    <CircleUserRound strokeWidth={1} size={64} />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-semibold">Character Name</h4>
-                    <p className="text-sm text-gray-500">
-                      Character Description
-                    </p>
-                  </div>
-                </div>
-              </Card>
+              <SidebarCard
+                title="Character Name"
+                icon={<CircleUserRound strokeWidth={1} size={64} />}
+                description="Character Description"
+              />
               <h3 className="text-lg font-semibold mb-2">Memo</h3>
               <Card>
                 <textarea
