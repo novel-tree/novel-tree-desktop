@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { debounce } from "lodash-es";
 import {
   Bold,
   Calendar,
@@ -45,13 +46,14 @@ export const ScriptsEditor = () => {
       setSubMenuHeight(windowHeight - subMenuBottom);
     }
   }
+  const debouncedHandleSubMenuHeight = debounce(handleSubMenuHeight, 100);
   useEffect(() => {
     if (subMenuModeListRef.current) {
-      window.addEventListener("resize", handleSubMenuHeight);
+      window.addEventListener("resize", debouncedHandleSubMenuHeight);
     }
     handleSubMenuHeight();
     return () => {
-      window.removeEventListener("resize", handleSubMenuHeight);
+      window.removeEventListener("resize", debouncedHandleSubMenuHeight);
     };
   }, [subMenuHeight]);
   return (
