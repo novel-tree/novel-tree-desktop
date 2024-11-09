@@ -59,15 +59,15 @@ const debouncedUpdate = debounce(
     nodes: TimelineNode[],
     selectedNode: string,
     nodeLabel: string,
-    setNodes: (nodes: TimelineNode[]) => void
+    setNodes: (nodes: TimelineNode[]) => void,
   ) => {
     setNodes(
       nodes.map((nd) =>
-        nd.id === selectedNode ? { ...nd, data: { label: nodeLabel } } : nd
-      )
+        nd.id === selectedNode ? { ...nd, data: { label: nodeLabel } } : nd,
+      ),
     );
   },
-  300
+  300,
 );
 
 export function TimeLineNodeRenderer({
@@ -79,7 +79,7 @@ export function TimeLineNodeRenderer({
 }) {
   const [nodes, setNodes, onNodesChange] = useNodesState(createInitialNodes());
   const [edges, setEdges, onEdgesChange] = useEdgesState(
-    createInitialEdges(nodes)
+    createInitialEdges(nodes),
   );
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [nodeLabel, setNodeLabel] = useState("");
@@ -121,7 +121,7 @@ export function TimeLineNodeRenderer({
         console.error(error);
       }
     },
-    [setSelectedNode, setNodeLabel]
+    [setSelectedNode, setNodeLabel],
   );
   useOnSelectionChange({ onChange });
   const onConnect = useCallback(
@@ -131,16 +131,16 @@ export function TimeLineNodeRenderer({
         return;
       }
       setEdges((oldEdges) =>
-        addEdge({ ...connection, animated: true }, oldEdges)
+        addEdge({ ...connection, animated: true }, oldEdges),
       );
     },
-    [setEdges]
+    [setEdges],
   );
   return (
-    <div className="w-full h-full relative">
+    <div className="relative h-full w-full">
       {width && height && (
         <div
-          className="border rounded"
+          className="rounded border"
           style={{ width: `${width}px`, height: `${height}px` }}
           role="application"
           aria-label="Timeline editor"
@@ -158,12 +158,12 @@ export function TimeLineNodeRenderer({
           </ReactFlow>
         </div>
       )}
-      <div className="absolute top-4 left-4 flex flex-col gap-4">
+      <div className="absolute left-4 top-4 flex flex-col gap-4">
         <Button onClick={addNode} variant="primary">
           Add Event
         </Button>
         {selectedNode && (
-          <div className="p-4 bg-white rounded-md shadow-md flex flex-col gap-1">
+          <div className="flex flex-col gap-1 rounded-md bg-white p-4 shadow-md">
             <label
               htmlFor="eventLabel"
               className="text-sm font-medium text-gray-700"
@@ -172,7 +172,7 @@ export function TimeLineNodeRenderer({
             </label>
             <input
               id="eventLabel"
-              className="border rounded-md p-2"
+              className="rounded-md border p-2"
               value={nodeLabel}
               onChange={(e) => setNodeLabel(e.target.value)}
               placeholder="Event Label"

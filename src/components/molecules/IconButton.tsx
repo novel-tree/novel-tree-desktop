@@ -23,7 +23,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
   const iconColor = classNames(
     fill === "primary" && "text-blue-500",
     fill === "secondary" && "text-gray-800",
-    disabled && "opacity-50 cursor-not-allowed"
+    disabled && "opacity-50 cursor-not-allowed",
   );
   function getIconComponent(icon: icon) {
     if (icon === "folder") {
@@ -42,9 +42,9 @@ export const IconButton: React.FC<IconButtonProps> = ({
         fill === "primary"
           ? "text-blue-500"
           : fill === "secondary"
-          ? "text-gray-800"
-          : "text-gray-500",
-        "flex items-center gap-1 px-2 py-0 rounded-md w-full"
+            ? "text-gray-800"
+            : "text-gray-500",
+        "flex w-full items-center gap-1 rounded-md px-2 py-0",
       )}
       disabled={disabled}
     >

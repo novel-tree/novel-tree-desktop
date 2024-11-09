@@ -18,7 +18,7 @@ export const CardContent: FC<CardContentProps> = ({
   return (
     <div className="flex flex-col space-y-2 p-6">
       <textarea
-        className="min-h-20 w-full rounded-md border p-2 text-sm outline-none resize-none"
+        className="min-h-20 w-full resize-none rounded-md border p-2 text-sm outline-none"
         value={description}
         placeholder={placeholder || "Enter a description"}
         onChange={handleOnChange}

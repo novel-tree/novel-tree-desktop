@@ -14,7 +14,7 @@ const fileChangesInitialState: FileChange[] = [];
 
 export const fileChangesAtom = atomWithStorage<FileChange[]>(
   "fileChanges",
-  fileChangesInitialState
+  fileChangesInitialState,
 );
 
 // reducers

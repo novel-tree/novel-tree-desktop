@@ -20,8 +20,8 @@ export const IconButtonList: FC<IconButtonListProps> = ({
   IconButtons,
 }) => {
   return (
-    <div className="w-auto border-r bg-gray-100 p-4 flex flex-col">
-      {title && <h1 className="text-2xl font-bold mb-4">{title}</h1>}
+    <div className="flex w-auto flex-col border-r bg-gray-100 p-4">
+      {title && <h1 className="mb-4 text-2xl font-bold">{title}</h1>}
       <ul className="flex flex-col" aria-label={listName}>
         {IconButtons.map((item) => (
           <li key={item.id}>

@@ -15,7 +15,7 @@ const size = 40;
 function handleIconClass(selected: boolean) {
   return classNames(
     selected ? "text-gray-500" : "text-gray-300",
-    "hover:text-gray-500"
+    "hover:text-gray-500",
   );
 }
 
@@ -52,8 +52,8 @@ export const ModeListItem: React.FC<ModeListItemProps> = ({
       <button
         onClick={onClick}
         className={classNames(
-          "p-1 box-border border-l-4",
-          selected ? "border-solid border-blue-500" : "border-transparent"
+          "box-border border-l-4 p-1",
+          selected ? "border-solid border-blue-500" : "border-transparent",
         )}
       >
         {<Icon />}

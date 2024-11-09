@@ -60,12 +60,12 @@ export const ScriptsEditor = () => {
     <ContentArea>
       <IconButtonList IconButtons={scripts} title="Scripts" />
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex flex-1 flex-col">
         <ContentHeaderBar>
-          <div className="w-64 flex items-center gap-2">
+          <div className="flex w-64 items-center gap-2">
             <input
               type="text"
-              className="w-full h-10 px-4 rounded-md border border-gray-200 focus:outline-none focus:ring focus:ring-blue-500"
+              className="h-10 w-full rounded-md border border-gray-200 px-4 focus:outline-none focus:ring focus:ring-blue-500"
               value="The Awakening"
               placeholder="script name"
               readOnly
@@ -79,26 +79,26 @@ export const ScriptsEditor = () => {
             </div>
           </Button>
         </ContentHeaderBar>
-        <div className="p-2 border-b border-border flex gap-2">
+        <div className="border-border flex gap-2 border-b p-2">
           <IconButton ariaLabel="bold" icon={<Bold size={16} />} />
           <IconButton ariaLabel="italic" icon={<Italic size={16} />} />
           <IconButton ariaLabel="underline" icon={<Underline size={16} />} />
           <VerticalDivider />
           <IconButton ariaLabel="copy" icon={<Copy size={16} />} />
         </div>
-        <div className="flex-1 flex relative">
+        <div className="relative flex flex-1">
           <div className="flex-1 p-4" style={{ width: `${splitRatio * 100}%` }}>
             <textarea
-              className="w-full h-full resize-none rounded-md border p-2"
+              className="h-full w-full resize-none rounded-md border p-2"
               placeholder="Start writing your chapter here..."
             />
           </div>
           <div
-            className="flex-1 bg-gray-50 border-l border-gray-100"
+            className="flex-1 border-l border-gray-100 bg-gray-50"
             style={{ width: `${(1 - splitRatio) * 100}%` }}
           >
             <div
-              className="p-2 border-b border-border flex gap-2 bg-white"
+              className="border-border flex gap-2 border-b bg-white p-2"
               ref={subMenuModeListRef}
             >
               <IconButton
@@ -113,37 +113,37 @@ export const ScriptsEditor = () => {
               <IconButton ariaLabel="add" icon={<Plus size={16} />} />
             </div>
             <div
-              className="flex flex-col gap-2 p-2 overflow-y-auto"
+              className="flex flex-col gap-2 overflow-y-auto p-2"
               style={{ height: `${subMenuHeight}px` }}
             >
-              <h3 className="text-lg font-semibold mb-2">Events</h3>
+              <h3 className="mb-2 text-lg font-semibold">Events</h3>
               <SidebarCard
                 title="Event Name"
                 icon={<Calendar strokeWidth={1} size={64} />}
                 description="Event Description"
               />
-              <h3 className="text-lg font-semibold mb-2">Items</h3>
+              <h3 className="mb-2 text-lg font-semibold">Items</h3>
               <SidebarCard
                 title="Item Name"
                 icon={<Gem strokeWidth={1} size={64} />}
                 description="Item Description"
               />
-              <h3 className="text-lg font-semibold mb-2">Locations</h3>
+              <h3 className="mb-2 text-lg font-semibold">Locations</h3>
               <SidebarCard
                 title="Location Name"
                 icon={<MapPin strokeWidth={1} size={64} />}
                 description="Location Description"
               />
-              <h3 className="text-lg font-semibold mb-2">Characters</h3>
+              <h3 className="mb-2 text-lg font-semibold">Characters</h3>
               <SidebarCard
                 title="Character Name"
                 icon={<CircleUserRound strokeWidth={1} size={64} />}
                 description="Character Description"
               />
-              <h3 className="text-lg font-semibold mb-2">Memo</h3>
+              <h3 className="mb-2 text-lg font-semibold">Memo</h3>
               <Card>
                 <textarea
-                  className="w-full p-2 bg-background"
+                  className="bg-background w-full p-2"
                   placeholder="Add notes, comments, or additional information here..."
                 />
               </Card>

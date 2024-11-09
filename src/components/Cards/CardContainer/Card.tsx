@@ -8,7 +8,7 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 export const Card: FC<CardProps> = ({ children, className, ...props }) => {
   const classes = classNames(
     "rounded-lg bg-white text-gray-900 border shadow-lg",
-    className
+    className,
   );
   return (
     <div className={classes} {...props}>

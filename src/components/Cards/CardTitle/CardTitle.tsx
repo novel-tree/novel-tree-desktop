@@ -12,7 +12,7 @@ interface CardTitleProps {
 function titleClassNames(isEditing: boolean) {
   return classNames(
     "flex items-center justify-start w-full border-b -m-[1px]",
-    isEditing ? "border-gray-100" : "border-transparent"
+    isEditing ? "border-gray-100" : "border-transparent",
   );
 }
 
@@ -29,7 +29,7 @@ export const CardTitle: FC<CardTitleProps> = ({
   return (
     <div className={titleClassNames(isEditing)}>
       <input
-        className="flex-grow outline-none font-semibold text-2xl leading-none"
+        className="flex-grow text-2xl font-semibold leading-none outline-none"
         type="text"
         value={message}
         onChange={handleOnChange}
@@ -37,7 +37,7 @@ export const CardTitle: FC<CardTitleProps> = ({
         onBlur={() => setIsFocused(false)}
         placeholder={placeholder ? placeholder : "Enter a title"}
       />
-      {hasUnsavedChanges && <Circle className="h-4 w-4 text-yellow-500 ml-2" />}
+      {hasUnsavedChanges && <Circle className="ml-2 h-4 w-4 text-yellow-500" />}
     </div>
   );
 };
