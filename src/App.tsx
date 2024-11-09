@@ -4,6 +4,7 @@ import { modes } from "./states/modes";
 import { Home } from "./components/pages/Home";
 import { TimeLineEditor } from "./components/pages/TimeLineEditor";
 import { SettingsEditor } from "./components/pages/SettingsEditor";
+import { ScriptsEditor } from "./components/pages/ScriptsEditor";
 import { SideBar } from "./components/templates/SideBar";
 import "./App.css";
 
@@ -12,6 +13,8 @@ import { ModeList } from "./components/organisms/ModeList";
 function ContentHandler() {
   const checkMode = useAtomValue(modes);
   switch (checkMode?.id) {
+    case "script":
+      return <ScriptsEditor />;
     case "timeline":
       return <TimeLineEditor />;
     case "setting":
