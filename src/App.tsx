@@ -29,10 +29,10 @@ function App() {
   }, []);
 
   return (
-    <div className="flex gap-0 w-screen h-screen overflow-hidden">
+    <div className="flex h-screen w-screen gap-0 overflow-hidden">
       <ModeList />
       <SideBar />
-      <div className="flex-1 max-w-full">
+      <div className="max-w-full flex-1">
         <ContentHandler />
       </div>
     </div>

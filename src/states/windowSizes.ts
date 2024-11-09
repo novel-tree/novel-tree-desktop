@@ -19,5 +19,5 @@ export const updateSidebarWidthAtom = atom(
     if (width > 64) {
       set(sidebarWidthAtom, width);
     }
-  }
+  },
 );

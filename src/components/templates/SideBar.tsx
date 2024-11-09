@@ -20,7 +20,7 @@ export const SideBar: React.FC<SideBarProps> = ({ children }) => {
   const sidebarWidth = useAtomValue(sidebarWidthAtom);
   return (
     <aside
-      className="h-screen p-x border-r border-solid flex flex-col gap-0"
+      className="p-x flex h-screen flex-col gap-0 border-r border-solid"
       style={{ maxWidth: `${sidebarWidth}px` }}
     >
       <SelectedMode />

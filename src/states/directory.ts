@@ -18,7 +18,7 @@ const directoryInitialState: DirectoryState = {
 
 export const directoryAtom = atomWithStorage<DirectoryState>(
   "directory",
-  directoryInitialState
+  directoryInitialState,
 );
 
 // reducers
@@ -31,7 +31,7 @@ export const setDirectory = atom(
       directoryName: newDirectory.directoryName,
       order: 0,
     });
-  }
+  },
 );
 
 // selectors

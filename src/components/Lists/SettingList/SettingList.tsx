@@ -13,7 +13,7 @@ export const SettingList: FC<CardHeaderProps> = (
   { settings, onClickItem } = {
     settings: [],
     onClickItem: () => {},
-  }
+  },
 ) => {
   useEffect(() => {
     console.log("Settings loaded", settings, onClickItem);
@@ -28,7 +28,7 @@ export const SettingList: FC<CardHeaderProps> = (
         >
           {item.name}
           {item.hasUnsavedChanges && (
-            <Circle className="h-4 w-4 absolute right-2 top-1/2 transform -translate-y-1/2 text-yellow-500" />
+            <Circle className="absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 transform text-yellow-500" />
           )}
         </TextButton>
       ))}

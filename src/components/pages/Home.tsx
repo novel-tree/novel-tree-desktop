@@ -33,7 +33,7 @@ export const Home: React.FC = () => {
   }
   return (
     <React.Fragment>
-      <div className="flex flex-col items-center justify-center h-screen">
+      <div className="flex h-screen flex-col items-center justify-center">
         <button onClick={openDirectoryDialog} className="text-blue-500">
           Open Directory Dialog
         </button>

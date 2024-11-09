@@ -106,9 +106,9 @@ export function SettingsEditor() {
   ];
   return (
     <div className="flex h-screen w-full bg-white">
-      <div className="w-auto border-r bg-gray-100 p-4 flex flex-col">
-        <h1 className="text-2xl font-bold mb-4">Story Settings</h1>
-        <nav className="flex flex-col space-y-2 flex-grow">
+      <div className="flex w-auto flex-col border-r bg-gray-100 p-4">
+        <h1 className="mb-4 text-2xl font-bold">Story Settings</h1>
+        <nav className="flex flex-grow flex-col space-y-2">
           {categories.map((category) => (
             <IconButton
               key={category.value}
@@ -120,14 +120,14 @@ export function SettingsEditor() {
         </nav>
       </div>
       {/* Main content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex flex-1 flex-col">
         {/* Search and Add New */}
-        <div className="p-4 border-b flex justify-between items-center">
-          <div className="w-64 relative">
+        <div className="flex items-center justify-between border-b p-4">
+          <div className="relative w-64">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
             <input
               type="text"
-              className="w-full h-10 pl-10 pr-4 rounded-md border border-gray-200 focus:outline-none focus:ring focus:ring-blue-500"
+              className="h-10 w-full rounded-md border border-gray-200 pl-10 pr-4 focus:outline-none focus:ring focus:ring-blue-500"
               placeholder="Search..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -141,24 +141,24 @@ export function SettingsEditor() {
           </Button>
         </div>
         {/* List and Details */}
-        <div className="flex-1 flex overflow-scroll">
+        <div className="flex flex-1 overflow-scroll">
           {/* List */}
           <SettingList
             settings={mockData[activeCategory]}
             onClickItem={handleItemClick}
           />
           {/* Details */}
-          <div className="flex-1 p-4 overflow-auto border-l">
+          <div className="flex-1 overflow-auto border-l p-4">
             {selectedItem ? (
               <SettingCard
                 item={
                   mockData[activeCategory].find(
-                    (item) => item.id === selectedItem
+                    (item) => item.id === selectedItem,
                   ) as ISettingItem
                 }
                 hasUnsavedChanges={
                   mockData[activeCategory].find(
-                    (item) => item.id === selectedItem
+                    (item) => item.id === selectedItem,
                   )?.hasUnsavedChanges || false
                 }
               />

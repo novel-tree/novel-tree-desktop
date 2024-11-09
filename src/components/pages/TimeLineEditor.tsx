@@ -44,7 +44,7 @@ export function TimeLineEditor() {
     };
   }, []);
   return (
-    <div className="w-full flex" ref={flowRef}>
+    <div className="flex w-full" ref={flowRef}>
       <ErrorBoundary FallbackComponent={TimelineErrorFallback}>
         <ReactFlowProvider>
           {containerSize.width === 0 || containerSize.height === 0 ? (

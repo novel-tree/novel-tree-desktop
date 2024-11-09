@@ -6,19 +6,19 @@ export function FileTabItem({ file }: { file: EditorFile }) {
   return (
     <div
       className={classNames(
-        "flex gap-2 items-center h-full",
-        file.isFocused ? "bg-gray-300" : "bg-gray-200"
+        "flex h-full items-center gap-2",
+        file.isFocused ? "bg-gray-300" : "bg-gray-200",
       )}
     >
       <div
         className={classNames(
-          "min-w-28 max-w-fit flex items-center justify-center border-x border-solid h-fit"
+          "flex h-fit min-w-28 max-w-fit items-center justify-center border-x border-solid",
         )}
       >
         <Typography variant="p" color="secondary" ellipsis>
           {file.name}
         </Typography>
-        <button className="w-4 h-4 flex items-center justify-center">X</button>
+        <button className="flex h-4 w-4 items-center justify-center">X</button>
       </div>
     </div>
   );

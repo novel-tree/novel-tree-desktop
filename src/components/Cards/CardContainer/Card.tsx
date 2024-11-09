@@ -5,7 +5,7 @@ interface CardProps {
 
 export const Card: FC<CardProps> = ({ children }) => {
   return (
-    <div className="rounded-lg bg-white text-gray-900 border shadow-lg">
+    <div className="rounded-lg border bg-white text-gray-900 shadow-lg">
       {children}
     </div>
   );

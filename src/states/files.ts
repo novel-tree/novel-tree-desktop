@@ -19,7 +19,7 @@ const filesInitialState: FileState[] = [];
 
 export const filesAtom = atomWithStorage<FileState[]>(
   "files",
-  filesInitialState
+  filesInitialState,
 );
 
 // reducers
@@ -33,7 +33,7 @@ export const addFile = atom(
       fileName: string;
       filePath: string;
       fileType: string;
-    }
+    },
   ) => {
     const files = get(filesAtom);
     set(filesAtom, [
@@ -52,7 +52,7 @@ export const addFile = atom(
       },
     ]);
     set(filesAtom, sortFiles(get(filesAtom)));
-  }
+  },
 );
 
 export const focusFile = atom(null, (get, set, fileId: string) => {

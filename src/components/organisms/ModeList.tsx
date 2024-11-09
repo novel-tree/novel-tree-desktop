@@ -5,7 +5,7 @@ import { ModeListItem } from "../molecules/ModeListItem";
 export function ModeList() {
   const [mode, setMode] = useAtom(modes);
   return (
-    <div className="flex flex-col gap-0 h-screen border-r border-solid">
+    <div className="flex h-screen flex-col gap-0 border-r border-solid">
       {Object.values(modeList).map((modeItem) => (
         <ModeListItem
           key={modeItem.id}

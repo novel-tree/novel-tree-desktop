@@ -26,7 +26,7 @@ const initialState = pages["home"];
 
 export const selectedPageAtom = atomWithStorage<Page>(
   "selectedPage",
-  initialState
+  initialState,
 );
 
 // reducers

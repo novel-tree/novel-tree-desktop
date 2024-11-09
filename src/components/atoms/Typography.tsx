@@ -28,8 +28,8 @@ export const Typography: React.FC<TypographyProps> = ({
         variant === "h5" && "text-lg font-bold",
         variant === "h6" && "text-base font-bold",
         variant === "p" && "text-base",
-        variant === "code" && "text-sm font-mono",
-        ellipsis && "overflow-x-hidden text-ellipsis text-nowrap"
+        variant === "code" && "font-mono text-sm",
+        ellipsis && "overflow-x-hidden text-ellipsis text-nowrap",
       )}
     >
       {children}

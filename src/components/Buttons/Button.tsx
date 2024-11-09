@@ -19,12 +19,12 @@ export const Button: React.FC<ButtonProps> = ({
     <button
       onClick={onClick}
       className={classNames(
-        "px-4 py-2 rounded-md",
+        "rounded-md px-4 py-2",
         variant === "primary" && "bg-blue-500 text-white",
         variant === "secondary" && "bg-gray-300 text-gray-800",
         variant === "error" && "bg-red-500 text-white",
-        disabled && "opacity-50 cursor-not-allowed",
-        fullWidth ? "w-full" : "w-fit"
+        disabled && "cursor-not-allowed opacity-50",
+        fullWidth ? "w-full" : "w-fit",
       )}
       disabled={disabled}
     >
