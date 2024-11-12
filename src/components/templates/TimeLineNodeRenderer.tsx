@@ -1,58 +1,17 @@
 import {
-  addEdge,
   Background,
   BackgroundVariant,
-  Connection,
   Controls,
   Edge,
   Node,
-  useNodesState,
-  useEdgesState,
   useOnSelectionChange,
   ReactFlow,
 } from "@xyflow/react";
-import { v4 as uuid } from "uuid";
 import { Button } from "../Buttons/Button";
 import { useCallback, useEffect, useState } from "react";
 import { debounce } from "lodash-es";
 import "@xyflow/react/dist/style.css";
-
-interface TimelineNode {
-  id: string;
-  position: { x: number; y: number };
-  data: { label: string };
-}
-
-interface TimelineEdge {
-  id: string;
-  source: string;
-  target: string;
-  animated: boolean;
-}
-
-const DEFAULT_NODE_DISTANCE = 100;
-const DEFAULT_NODE_X = 0;
-
-const createInitialNodes = (startY = 0): TimelineNode[] => [
-  {
-    id: uuid(),
-    position: { x: DEFAULT_NODE_X, y: startY },
-    data: { label: "1" },
-  },
-  {
-    id: uuid(),
-    position: { x: DEFAULT_NODE_X, y: startY + DEFAULT_NODE_DISTANCE },
-    data: { label: "2" },
-  },
-];
-const createInitialEdges = (nodes: TimelineNode[]): TimelineEdge[] => [
-  {
-    id: `e-${nodes[0].id}-${nodes[1].id}`,
-    source: nodes[0].id,
-    target: nodes[1].id,
-    animated: true,
-  },
-];
+import { useTimelineState, TimelineNode } from "../../states";
 
 const debouncedUpdate = debounce(
   (
@@ -77,22 +36,21 @@ export function TimeLineNodeRenderer({
   width: number;
   height: number;
 }) {
-  const [nodes, setNodes, onNodesChange] = useNodesState(createInitialNodes());
-  const [edges, setEdges, onEdgesChange] = useEdgesState(
-    createInitialEdges(nodes),
-  );
+  const {
+    addNode,
+    nodes,
+    setNodes,
+    onNodesChange,
+    edges,
+    onEdgesChange,
+    onConnect,
+  } = useTimelineState();
+
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [nodeLabel, setNodeLabel] = useState("");
-  function addNode() {
-    const newNodeY = nodes[nodes.length - 1].position.y + 100;
-    const newNode: Node<{ label: string }> = {
-      id: uuid(),
-      position: { x: 0, y: newNodeY },
-      data: { label: "New Event" },
-    };
-    const newNodes = [...nodes, newNode];
-    setNodes(newNodes);
-  }
+  const onClickAddNode = () => {
+    addNode("New Node");
+  };
 
   useEffect(() => {
     if (selectedNode) {
@@ -124,18 +82,7 @@ export function TimeLineNodeRenderer({
     [setSelectedNode, setNodeLabel],
   );
   useOnSelectionChange({ onChange });
-  const onConnect = useCallback(
-    (connection: Connection) => {
-      if (!connection.source || !connection.target) {
-        console.warn("Invalid connection");
-        return;
-      }
-      setEdges((oldEdges) =>
-        addEdge({ ...connection, animated: true }, oldEdges),
-      );
-    },
-    [setEdges],
-  );
+
   return (
     <div className="relative h-full w-full">
       {width && height && (
@@ -159,7 +106,7 @@ export function TimeLineNodeRenderer({
         </div>
       )}
       <div className="absolute left-4 top-4 flex flex-col gap-4">
-        <Button onClick={addNode} variant="primary">
+        <Button onClick={onClickAddNode} variant="primary">
           Add Event
         </Button>
         {selectedNode && (
