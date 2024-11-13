@@ -24,6 +24,7 @@ interface TimelineEdge extends Edge {
   target: string;
 }
 
+const MAX_NODES = 10;
 const DEFAULT_NODE_DISTANCE = 100;
 const DEFAULT_NODE_X = 0;
 
@@ -40,13 +41,18 @@ const initialNodes: TimelineNode[] = [
   },
 ];
 
-const createInitialEdges = (nodes: TimelineNode[]): TimelineEdge[] => [
-  {
-    id: `e-${nodes[0].id}-${nodes[1].id}`,
-    source: nodes[0].id,
-    target: nodes[1].id,
-  },
-];
+const createInitialEdges = (nodes: TimelineNode[]): TimelineEdge[] => {
+  if (nodes.length < 2) {
+    throw new Error("Nodes must have at least 2 elements");
+  }
+  return [
+    {
+      id: `e-${nodes[0].id}-${nodes[1].id}`,
+      source: nodes[0].id,
+      target: nodes[1].id,
+    },
+  ];
+};
 
 export type AppState = {
   nodes: TimelineNode[];
@@ -59,10 +65,25 @@ export type AppState = {
   addNode: (label: string) => void;
   saveToStorage: () => void;
 };
-const nodesAtom = atom(getStorage(storageKeys.timelines.nodes) || initialNodes);
-const edgesAtom = atom(
-  getStorage(storageKeys.timelines.edges) || createInitialEdges(initialNodes),
-);
+const getInitialState = () => {
+  try {
+    const storedNodes = getStorage(storageKeys.timelines.nodes);
+    const nodes = (storedNodes as TimelineNode[]) || initialNodes;
+    const edges =
+      (getStorage(storageKeys.timelines.edges) as TimelineEdge[]) ||
+      createInitialEdges(nodes);
+    return { nodes, edges };
+  } catch (error) {
+    console.error("Failed to load timeline state:", error);
+    return {
+      nodes: initialNodes,
+      edges: createInitialEdges(initialNodes),
+    };
+  }
+};
+const { edges, nodes } = getInitialState();
+const nodesAtom = atom(nodes);
+const edgesAtom = atom(edges);
 
 export const useTimelineState = (): AppState => {
   const [nodes, setNodes] = useAtom(nodesAtom);
@@ -81,6 +102,9 @@ export const useTimelineState = (): AppState => {
   };
 
   const addNode = (label: string) => {
+    if (nodes.length >= MAX_NODES) {
+      throw new Error(`Maximum number of nodes reached: ${MAX_NODES}`);
+    }
     const newNodeY = nodes[nodes.length - 1].position.y + DEFAULT_NODE_DISTANCE;
     const newNode: TimelineNode = {
       id: uuid(),
@@ -91,8 +115,13 @@ export const useTimelineState = (): AppState => {
   };
 
   const saveToStorage = () => {
-    setStorage(storageKeys.timelines.nodes, nodes);
-    setStorage(storageKeys.timelines.edges, edges);
+    try {
+      setStorage(storageKeys.timelines.nodes, nodes);
+      setStorage(storageKeys.timelines.edges, edges);
+    } catch (error) {
+      console.error("Failed to save timeline state:", error);
+      throw new Error("Failed to save timeline state");
+    }
   };
 
   return {
