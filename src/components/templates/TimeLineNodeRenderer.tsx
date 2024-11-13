@@ -44,12 +44,16 @@ export function TimeLineNodeRenderer({
     edges,
     onEdgesChange,
     onConnect,
+    saveToStorage,
   } = useTimelineState();
 
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [nodeLabel, setNodeLabel] = useState("");
   const onClickAddNode = () => {
     addNode("New Node");
+  };
+  const onClickSave = () => {
+    saveToStorage();
   };
 
   useEffect(() => {
@@ -108,6 +112,9 @@ export function TimeLineNodeRenderer({
       <div className="absolute left-4 top-4 flex flex-col gap-4">
         <Button onClick={onClickAddNode} variant="primary">
           Add Event
+        </Button>
+        <Button onClick={onClickSave} variant="primary">
+          save
         </Button>
         {selectedNode && (
           <div className="flex flex-col gap-1 rounded-md bg-white p-4 shadow-md">

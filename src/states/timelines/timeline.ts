@@ -10,6 +10,7 @@ import {
   OnNodesChange,
 } from "@xyflow/react";
 import { v4 as uuid } from "uuid";
+import { getStorage, setStorage, storageKeys } from "../../data";
 
 export interface TimelineNode extends Node {
   id: string;
@@ -21,7 +22,6 @@ interface TimelineEdge extends Edge {
   id: string;
   source: string;
   target: string;
-  animated: boolean;
 }
 
 const DEFAULT_NODE_DISTANCE = 100;
@@ -45,7 +45,6 @@ const createInitialEdges = (nodes: TimelineNode[]): TimelineEdge[] => [
     id: `e-${nodes[0].id}-${nodes[1].id}`,
     source: nodes[0].id,
     target: nodes[1].id,
-    animated: true,
   },
 ];
 
@@ -58,9 +57,12 @@ export type AppState = {
   setNodes: (nodes: TimelineNode[]) => void;
   setEdges: (edges: TimelineEdge[]) => void;
   addNode: (label: string) => void;
+  saveToStorage: () => void;
 };
-const nodesAtom = atom(initialNodes);
-const edgesAtom = atom(createInitialEdges(initialNodes));
+const nodesAtom = atom(getStorage(storageKeys.timelines.nodes) || initialNodes);
+const edgesAtom = atom(
+  getStorage(storageKeys.timelines.edges) || createInitialEdges(initialNodes),
+);
 
 export const useTimelineState = (): AppState => {
   const [nodes, setNodes] = useAtom(nodesAtom);
@@ -88,6 +90,11 @@ export const useTimelineState = (): AppState => {
     setNodes([...nodes, newNode]);
   };
 
+  const saveToStorage = () => {
+    setStorage(storageKeys.timelines.nodes, nodes);
+    setStorage(storageKeys.timelines.edges, edges);
+  };
+
   return {
     nodes,
     edges,
@@ -97,5 +104,6 @@ export const useTimelineState = (): AppState => {
     setNodes,
     setEdges,
     addNode,
+    saveToStorage,
   };
 };
