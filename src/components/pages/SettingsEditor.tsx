@@ -112,7 +112,7 @@ export function SettingsEditor() {
           {categories.map((category) => (
             <IconButton
               key={category.value}
-              text={category.label}
+              ariaLabel={category.label}
               icon={category.icon}
               onClick={() => setActiveCategory(category.value)}
             />
