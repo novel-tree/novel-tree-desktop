@@ -18,7 +18,17 @@ const getInitialState = (): CharacterList => {
     const characters = getStorage(
       storageKeys.settings.characters,
     ) as CharacterList;
-    return characters || [];
+    if (!characters) return [];
+    return characters
+      .map((character) => {
+        const result = CharacterSchema.safeParse(character);
+        if (!result.success) {
+          console.error("Failed to load character state:", result.error);
+          return null;
+        }
+        return result.data;
+      })
+      .filter((character): character is Character => character !== null);
   } catch (error) {
     console.error("Failed to load character state:", error);
     return [];

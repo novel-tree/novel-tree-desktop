@@ -16,7 +16,17 @@ export type ItemList = Item[];
 const getInitialState = (): ItemList => {
   try {
     const items = getStorage(storageKeys.settings.items) as ItemList;
-    return items || [];
+    if (!items) return [];
+    return items
+      .map((item) => {
+        const result = ItemSchema.safeParse(item);
+        if (!result.success) {
+          console.error("Failed to load item state:", result.error);
+          return null;
+        }
+        return result.data;
+      })
+      .filter((item): item is Item => item !== null);
   } catch (error) {
     console.error("Failed to load item state:", error);
     return [];

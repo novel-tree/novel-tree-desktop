@@ -18,7 +18,17 @@ const getInitialState = (): LocationList => {
     const locations = getStorage(
       storageKeys.settings.locations,
     ) as LocationList;
-    return locations || [];
+    if (!locations) return [];
+    return locations
+      .map((location) => {
+        const result = LocationSchema.safeParse(location);
+        if (!result.success) {
+          console.error("Failed to load location state:", result.error);
+          return null;
+        }
+        return result.data;
+      })
+      .filter((location): location is Location => location !== null);
   } catch (error) {
     console.error("Failed to load location state:", error);
     return [];

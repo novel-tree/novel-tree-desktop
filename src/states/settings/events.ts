@@ -16,7 +16,17 @@ export type EventList = Event[];
 const getInitialState = (): EventList => {
   try {
     const events = getStorage(storageKeys.settings.events) as EventList;
-    return events || [];
+    if (!events) return [];
+    return events
+      .map((event) => {
+        const result = EventSchema.safeParse(event);
+        if (!result.success) {
+          console.error("Failed to load event state:", result.error);
+          return null;
+        }
+        return result.data;
+      })
+      .filter((event): event is Event => event !== null);
   } catch (error) {
     console.error("Failed to load event state:", error);
     return [];
