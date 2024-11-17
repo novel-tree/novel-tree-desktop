@@ -4,9 +4,9 @@ import { v4 as uuid } from "uuid";
 import { getStorage, setStorage, storageKeys } from "../../data";
 
 const CharacterSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  description: z.string().optional(),
+  id: z.string().uuid(),
+  name: z.string().min(1, "Name must not be empty"),
+  description: z.string().nullable().optional(),
   hasUnsavedChanges: z.boolean(),
 });
 
