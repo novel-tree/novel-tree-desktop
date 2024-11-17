@@ -3,6 +3,13 @@ export const storageKeys = {
     nodes: "timelines/nodes",
     edges: "timelines/edges",
   },
+  settings: {
+    events: "settings/events",
+    characters: "settings/characters",
+    locations: "settings/locations",
+    items: "settings/items",
+    mode: "settings/mode",
+  },
 };
 
 export const getStorage = (key: string) => {
