@@ -45,16 +45,28 @@ export const useEventsState = (): EventsHook => {
   const [events, setEvents] = useAtom(eventsAtom);
 
   const addEvent = (name: string) => {
+    if (!name.trim()) {
+      throw new Error("Name must not be empty");
+    }
     const newEvent: Event = {
       id: uuid(),
       name,
       hasUnsavedChanges: true,
     };
-    setEvents([...events, newEvent]);
+    setEvents((prev) => [...prev, newEvent]);
   };
 
   const saveToStorage = () => {
-    setStorage(storageKeys.settings.events, events);
+    try {
+      setEvents((prev) => ({
+        ...prev,
+        hasUnsavedChanges: false,
+      }));
+      setStorage(storageKeys.settings.events, events);
+    } catch (error) {
+      console.error("Failed to save event state:", error);
+      throw error;
+    }
   };
 
   return { events, addEvent, saveToStorage };

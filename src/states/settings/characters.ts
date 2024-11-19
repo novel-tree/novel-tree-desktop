@@ -47,16 +47,27 @@ export const useCharactersState = (): CharactersHook => {
   const [characters, setCharacters] = useAtom(charactersAtom);
 
   const addCharacter = (name: string) => {
+    if (!name.trim()) {
+      throw new Error("Name must not be empty");
+    }
     const newCharacter: Character = {
       id: uuid(),
       name,
       hasUnsavedChanges: true,
     };
-    setCharacters([...characters, newCharacter]);
+    setCharacters((prev) => [...prev, newCharacter]);
   };
 
   const saveToStorage = () => {
-    setStorage(storageKeys.settings.characters, characters);
+    try {
+      setCharacters((prev) =>
+        prev.map((character) => ({ ...character, hasUnsavedChanges: false })),
+      );
+      setStorage(storageKeys.settings.characters, characters);
+    } catch (error) {
+      console.error("Failed to save character state:", error);
+      throw error;
+    }
   };
 
   return { characters, addCharacter, saveToStorage };

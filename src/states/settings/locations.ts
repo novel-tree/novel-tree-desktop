@@ -47,16 +47,26 @@ export const useLocationsState = (): LocationsHook => {
   const [locations, setLocations] = useAtom(locationsAtom);
 
   const addLocation = (name: string) => {
+    if (!name.trim()) {
+      throw new Error("Name must not be empty");
+    }
     const newLocation: Location = {
       id: uuid(),
       name,
       hasUnsavedChanges: true,
     };
-    setLocations([...locations, newLocation]);
+    setLocations((prev) => [...prev, newLocation]);
   };
 
   const saveToStorage = () => {
-    setStorage(storageKeys.settings.locations, locations);
+    try {
+      setLocations((prev) =>
+        prev.map((location) => ({ ...location, hasUnsavedChanges: false })),
+      );
+      setStorage(storageKeys.settings.locations, locations);
+    } catch (error) {
+      console.error("Failed to save location state:", error);
+    }
   };
 
   return { locations, addLocation, saveToStorage };

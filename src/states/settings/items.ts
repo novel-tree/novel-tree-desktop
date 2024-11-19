@@ -45,16 +45,26 @@ export const useItemsState = (): ItemsHook => {
   const [items, setItems] = useAtom(itemsAtom);
 
   const addItem = (name: string) => {
+    if (!name.trim()) {
+      throw new Error("Name must not be empty");
+    }
     const newItem: Item = {
       id: uuid(),
       name,
       hasUnsavedChanges: true,
     };
-    setItems([...items, newItem]);
+    setItems((prev) => [...prev, newItem]);
   };
 
   const saveToStorage = () => {
-    setStorage(storageKeys.settings.items, items);
+    try {
+      setItems((prev) =>
+        prev.map((item) => ({ ...item, hasUnsavedChanges: false })),
+      );
+      setStorage(storageKeys.settings.items, items);
+    } catch (error) {
+      console.error("Failed to save item state:", error);
+    }
   };
 
   return { items, addItem, saveToStorage };
