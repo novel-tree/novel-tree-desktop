@@ -1,120 +1,118 @@
 import { useState } from "react";
 import { Search, Users, MapPin, Gem, Calendar, Plus } from "lucide-react";
-import { Button, IconButton } from "../Buttons";
+import { Button, IconTextButton } from "../Buttons";
 import { SettingList } from "../Lists";
 import { SettingCard } from "../Cards";
 import {
-  ISettingItem,
-  ICharacterSetting,
-  ILocationSetting,
-  IItemSetting,
-  IEventSetting,
-} from "../../types/settings";
-
-const mockData: {
-  characters: ICharacterSetting[];
-  locations: ILocationSetting[];
-  items: IItemSetting[];
-  events: IEventSetting[];
-} = {
-  characters: [
-    {
-      id: "1",
-      name: "John Doe",
-      description: "The protagonist, a detective with a dark past",
-      hasUnsavedChanges: true,
-      isEditing: true,
-    },
-    {
-      id: "2",
-      name: "Jane Smith",
-      description: "A brilliant scientist working on a secret project.",
-    },
-  ],
-  locations: [
-    {
-      id: "1",
-      name: "City Hall",
-      description: "The seat of the city government",
-    },
-    {
-      id: "2",
-      name: "Smith Manor",
-      description: "The home of the Smith family",
-    },
-  ],
-  items: [
-    {
-      id: "1",
-      name: "Key",
-      description: "A mysterious key with an unknown purpose",
-    },
-    { id: "2", name: "Gun", description: "A weapon used in a recent crime" },
-  ],
-  events: [
-    {
-      id: "1",
-      name: "Awakening",
-      description:
-        "The protagonist wakes up in a dark alley with no memory of how he got there",
-    },
-    {
-      id: "2",
-      name: "Experiment",
-      description:
-        "Jane conducts a dangerous experiment that goes horribly wrong",
-    },
-  ],
-};
-
-type Category = "characters" | "locations" | "items" | "events";
-type ItemId = string;
+  useSettingsState,
+  SettingMode,
+  useCharactersState,
+  useLocationsState,
+  useItemsState,
+  useEventsState,
+  CharacterList,
+  LocationList,
+  EventList,
+  ItemList,
+  Setting,
+} from "../../states/settings";
 
 export function SettingsEditor() {
-  const [activeCategory, setActiveCategory] = useState<Category>("characters");
-  const [selectedItem, setSelectedItem] = useState<ItemId | null>(null);
+  const { setCurrentSettingMode, settingMode } = useSettingsState();
+  const { addCharacter, characters } = useCharactersState();
+  const { addLocation, locations } = useLocationsState();
+  const { addItem, items } = useItemsState();
+  const { addEvent, events } = useEventsState();
+
+  const [selectedItem, setSelectedItem] = useState<Setting | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const handleItemClick = (itemId: string) => {
-    setSelectedItem(itemId);
+  const handleSelectedMode = (mode: SettingMode) => {
+    setCurrentSettingMode(mode);
+    const newSelectedItem = handleSelectedModeData()[0];
+    setSelectedItem(newSelectedItem ?? null);
   };
+
+  const handleSelectedModeData = ():
+    | CharacterList
+    | LocationList
+    | EventList
+    | ItemList => {
+    switch (settingMode) {
+      case "character":
+        return characters;
+      case "location":
+        return locations;
+      case "item":
+        return items;
+      case "event":
+        return events;
+    }
+  };
+
+  const handleSelectedItem = (item: Setting) => {
+    setSelectedItem(item);
+  };
+
   const handleAddNew = () => {
-    // In a real application, this would open a form to add a new item
-    console.log("Adding new item to", activeCategory);
+    try {
+      switch (settingMode) {
+        case "character":
+          addCharacter("New Character");
+          break;
+        case "location":
+          addLocation("New Location");
+          break;
+        case "item":
+          addItem("New Item");
+          break;
+        case "event":
+          addEvent("New Event");
+          break;
+      }
+    } catch (error) {
+      console.error("Failed to add new item:", error);
+    }
   };
   const categories: {
-    value: Category;
+    value: SettingMode;
     label: string;
     icon: React.ReactNode;
   }[] = [
     {
-      value: "characters",
+      value: "character",
       label: "Characters",
       icon: <Users className="h-4 w-4" />,
     },
     {
-      value: "locations",
+      value: "location",
       label: "Locations",
       icon: <MapPin className="h-4 w-4" />,
     },
-    { value: "items", label: "Items", icon: <Gem className="h-4 w-4" /> },
     {
-      value: "events",
+      value: "item",
+      label: "Items",
+      icon: <Gem className="h-4 w-4" />,
+    },
+    {
+      value: "event",
       label: "Events",
       icon: <Calendar className="h-4 w-4" />,
     },
   ];
+
   return (
     <div className="flex h-screen w-full bg-white">
       <div className="flex w-auto flex-col border-r bg-gray-100 p-4">
         <h1 className="mb-4 text-2xl font-bold">Story Settings</h1>
         <nav className="flex flex-grow flex-col space-y-2">
           {categories.map((category) => (
-            <IconButton
+            <IconTextButton
               key={category.value}
               text={category.label}
               icon={category.icon}
-              onClick={() => setActiveCategory(category.value)}
+              className={category.value === settingMode ? "bg-blue-100" : ""}
+              onClick={() => handleSelectedMode(category.value)}
             />
           ))}
         </nav>
@@ -144,24 +142,14 @@ export function SettingsEditor() {
         <div className="flex flex-1 overflow-scroll">
           {/* List */}
           <SettingList
-            settings={mockData[activeCategory]}
-            onClickItem={handleItemClick}
+            settings={handleSelectedModeData()}
+            onItemSelected={handleSelectedItem}
+            selectedSettingId={selectedItem?.id ?? ""}
           />
           {/* Details */}
           <div className="flex-1 overflow-auto border-l p-4">
             {selectedItem ? (
-              <SettingCard
-                item={
-                  mockData[activeCategory].find(
-                    (item) => item.id === selectedItem,
-                  ) as ISettingItem
-                }
-                hasUnsavedChanges={
-                  mockData[activeCategory].find(
-                    (item) => item.id === selectedItem,
-                  )?.hasUnsavedChanges || false
-                }
-              />
+              <SettingCard item={selectedItem} hasUnsavedChanges={false} />
             ) : (
               <p className="text-gray-500">Select an item to view details</p>
             )}

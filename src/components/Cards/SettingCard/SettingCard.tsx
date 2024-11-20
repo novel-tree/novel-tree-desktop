@@ -3,10 +3,10 @@ import { Card } from "../CardContainer/Card";
 import { CardHeader } from "../CardHeader/CardHeader";
 import { CardContent } from "../CardContent/CardContent";
 import { CardTitle } from "../CardTitle/CardTitle";
-import { ISettingItem } from "../../../types/settings";
+import { Setting } from "../../../states/settings";
 
 interface SettingCardProps {
-  item: ISettingItem;
+  item: Setting;
   hasUnsavedChanges: boolean;
 }
 

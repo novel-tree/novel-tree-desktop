@@ -1,9 +1,17 @@
 import { FC, HTMLAttributes, ReactNode } from "react";
+import classNames from "classnames";
 
 interface IconTextButtonProps extends HTMLAttributes<HTMLButtonElement> {
   icon: ReactNode;
   text: ReactNode;
 }
+
+const handleClasses = (className = ""): string => {
+  const defaultClasses = classNames(
+    "inline-flex h-10 w-full items-center justify-start gap-2 whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-200 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  );
+  return classNames(defaultClasses, className);
+};
 
 export const IconTextButton: FC<IconTextButtonProps> = ({
   text,
@@ -11,10 +19,7 @@ export const IconTextButton: FC<IconTextButtonProps> = ({
   ...props
 }) => {
   return (
-    <button
-      {...props}
-      className="inline-flex h-10 w-full items-center justify-start gap-2 whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-200 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-    >
+    <button {...props} className={handleClasses(props.className)}>
       {icon}
       <span className="ml-2">{text}</span>
     </button>
