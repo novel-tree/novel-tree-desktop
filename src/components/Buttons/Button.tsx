@@ -1,6 +1,6 @@
-import React from "react";
+import React, { HTMLAttributes } from "react";
 import classNames from "classnames";
-interface ButtonProps {
+interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   variant?: "primary" | "secondary" | "error";
   disabled?: boolean;
@@ -20,9 +20,9 @@ export const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       className={classNames(
         "rounded-md px-4 py-2",
-        variant === "primary" && "bg-blue-500 text-white",
+        variant === "primary" && "bg-gray-800 text-white",
         variant === "secondary" && "bg-gray-300 text-gray-800",
-        variant === "error" && "bg-red-500 text-white",
+        variant === "error" && "bg-gray-500 text-white",
         disabled && "cursor-not-allowed opacity-50",
         fullWidth ? "w-full" : "w-fit",
       )}

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useAtomValue } from "jotai";
+import { ModalProvider } from "./providers";
 import { modes } from "./states/modes";
 import { Home } from "./components/pages/Home";
 import { TimeLineEditor } from "./components/pages/TimeLineEditor";
@@ -9,6 +10,7 @@ import { SideBar } from "./components/templates/SideBar";
 import "./App.css";
 
 import { ModeList } from "./components/organisms/ModeList";
+import { ModalPortal } from "./providers/ModalPortal";
 
 function ContentHandler() {
   const checkMode = useAtomValue(modes);
@@ -32,13 +34,16 @@ function App() {
   }, []);
 
   return (
-    <div className="flex h-screen w-screen gap-0 overflow-hidden">
-      <ModeList />
-      <SideBar />
-      <div className="max-w-full flex-1">
-        <ContentHandler />
+    <ModalProvider>
+      <div className="flex h-screen w-screen gap-0 overflow-hidden">
+        <ModeList />
+        <SideBar />
+        <div className="max-w-full flex-1">
+          <ContentHandler />
+        </div>
       </div>
-    </div>
+      <ModalPortal />
+    </ModalProvider>
   );
 }
 
