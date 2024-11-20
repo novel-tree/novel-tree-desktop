@@ -13,14 +13,10 @@ export type Setting = Character | Location | Event | Item;
 
 const getInitialState = (): SettingMode => {
   try {
-    const storedMode = getStorage(storageKeys.settings.mode);
-    if (!SettingModeSchema.safeParse(storedMode).success) {
-      setStorage(storageKeys.settings.mode, SettingModeSchema.options[0]);
-    }
-    return (
-      SettingModeSchema.parse(getStorage(storageKeys.settings.mode)) ||
-      SettingModeSchema.options[0]
+    const storedMode = SettingModeSchema.safeParse(
+      getStorage(storageKeys.settings.mode),
     );
+    return storedMode.success ? storedMode.data : SettingModeSchema.options[0];
   } catch (error) {
     console.error(
       `Invalid setting mode stored. Expected one of [${SettingModeSchema.options.join(", ")}]. Defauluting to ${SettingModeSchema.options[0]}.`,
