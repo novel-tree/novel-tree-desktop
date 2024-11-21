@@ -41,7 +41,10 @@ const ModalSchema = z.union([
 type ModalState = z.infer<typeof ModalSchema>;
 
 interface ModalContextType {
-  showModal: (type: ModalType, props?: any) => void;
+  showModal: <T extends ModalState>(
+    type: ModalType,
+    props?: T extends { props: infer P } ? P : never,
+  ) => void;
   closeModal: () => void;
   modalState: ModalState;
 }
@@ -53,8 +56,17 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [modalState, setModalState] = useState<ModalState>({ type: null });
 
-  const showModal = (type: ModalType, props?: any) => {
-    setModalState({ type, props });
+  const showModal = <T extends ModalState>(
+    type: ModalType,
+    props?: T extends { props: infer P } ? P : never,
+  ) => {
+    const newState = { type, props } as ModalState;
+    try {
+      ModalSchema.parse(newState);
+      setModalState(newState);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const closeModal = () => {
