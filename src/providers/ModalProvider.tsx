@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useState, ReactNode } from "react";
 import { z } from "zod";
 import { AlertModalPropsScheme } from "../components/modals/AlertModal/AlertModal";
 
@@ -49,7 +49,9 @@ interface ModalContextType {
   modalState: ModalState;
 }
 
-const ModalContext = createContext<ModalContextType | undefined>(undefined);
+export const ModalContext = createContext<ModalContextType | undefined>(
+  undefined,
+);
 
 export const ModalProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -77,12 +79,4 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
       {children}
     </ModalContext.Provider>
   );
-};
-
-export const useModal = (): ModalContextType => {
-  const context = useContext(ModalContext);
-  if (!context) {
-    throw new Error("useModal must be used within a ModalProvider");
-  }
-  return context;
 };

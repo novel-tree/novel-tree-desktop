@@ -55,7 +55,7 @@ export const ScriptsEditor = () => {
     return () => {
       window.removeEventListener("resize", debouncedHandleSubMenuHeight);
     };
-  }, [subMenuHeight]);
+  }, [debouncedHandleSubMenuHeight]);
   return (
     <ContentArea>
       <IconButtonList IconButtons={scripts} title="Scripts" />

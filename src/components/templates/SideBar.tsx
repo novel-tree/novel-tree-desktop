@@ -1,7 +1,7 @@
 import React from "react";
 import { useAtomValue } from "jotai";
 import { sidebarWidthAtom } from "../../states/windowSizes";
-import { modeList, modes } from "../../states/modes";
+import { modes } from "../../states/modes";
 import { ScriptList } from "../organisms/SideBarModules/ScriptList";
 
 interface SideBarProps {
@@ -16,7 +16,7 @@ const SelectedMode: React.FC = () => {
   return <ScriptList />;
 };
 
-export const SideBar: React.FC<SideBarProps> = ({ children }) => {
+export const SideBar: React.FC<SideBarProps> = () => {
   const sidebarWidth = useAtomValue(sidebarWidthAtom);
   return (
     <aside
