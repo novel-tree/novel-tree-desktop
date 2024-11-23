@@ -3,25 +3,31 @@ name: PULL REQUEST
 on:
   pull_request:
     branches:
-      - development
+      - develop
 
 jobs:
   prettier-lint:
     name: Prettier and Lint
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: current
+          node-version: 20
           cache: "pnpm"
 
       - name: Install pnpm
-        run: npm install -g pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
 
       - name: Install dependencies (frozen-lockfile)
         run: pnpm install --frozen-lockfile
