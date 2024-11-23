@@ -1,0 +1,36 @@
+name: PULL REQUEST
+
+on:
+  pull_request:
+    branches:
+      - development
+
+jobs:
+  prettier-lint:
+    name: Prettier and Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: current
+          cache: "pnpm"
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies (frozen-lockfile)
+        run: pnpm install --frozen-lockfile
+
+      - name: Prettier
+        run: pnpm run prettier:check
+
+      - name: Lint
+        run: pnpm run lint
+
+      # Add build step for later
+      # Add tests for later
