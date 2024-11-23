@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useModal } from "./ModalProvider";
+import { useModal } from "../hooks/useModal";
 import { createPortal } from "react-dom";
 import {
   AlertModal,

@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { File, Folder } from "lucide-react";
-import { Typography } from "../atoms/Typography";
+import { Typography } from "../Typographies/Typography";
 
 type icon = "folder" | "file";
 

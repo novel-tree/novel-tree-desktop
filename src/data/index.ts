@@ -25,7 +25,7 @@ export const getStorage = (key: string) => {
   }
 };
 
-export const setStorage = (key: string, value: any) => {
+export const setStorage = (key: string, value: unknown) => {
   try {
     localStorage.setItem(key, JSON.stringify(value));
     return true;

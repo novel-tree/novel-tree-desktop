@@ -1,4 +1,4 @@
-import { Typography } from "../atoms/Typography";
+import { Typography } from "../Typographies/Typography";
 
 export function DefaultPage() {
   return (
