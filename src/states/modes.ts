@@ -5,6 +5,7 @@ interface Mode {
   id: string;
   title: string;
   notification?: number;
+  disabled?: boolean;
 }
 
 interface Modes {
@@ -19,10 +20,12 @@ export const modeList: Modes = {
   setting: {
     id: "setting",
     title: "Setting",
+    disabled: true,
   },
   timeline: {
     id: "timeline",
     title: "Timeline",
+    disabled: true,
   },
 };
 

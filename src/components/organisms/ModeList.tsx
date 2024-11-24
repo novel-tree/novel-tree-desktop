@@ -14,6 +14,7 @@ export function ModeList() {
           description=""
           onClick={() => setMode(modeItem)}
           selected={mode?.id === modeItem.id}
+          disabled={modeItem.disabled || false}
         />
       ))}
     </div>

@@ -8,12 +8,13 @@ import { SettingsEditor } from "./components/pages/SettingsEditor";
 import { ScriptsEditor } from "./components/pages/ScriptsEditor";
 import { SideBar } from "./components/templates/SideBar";
 import "./App.css";
-
 import { ModeList } from "./components/organisms/ModeList";
 import { ModalPortal } from "./providers/ModalPortal";
+import { isPaidUser } from "./constants/environmental";
 
 function ContentHandler() {
   const checkMode = useAtomValue(modes);
+  if (!isPaidUser) return <ScriptsEditor />;
   switch (checkMode?.id) {
     case "script":
       return <ScriptsEditor />;
