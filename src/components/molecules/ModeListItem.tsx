@@ -63,8 +63,10 @@ export const ModeListItem: React.FC<ModeListItemProps> = ({
           "box-border border-l-4 p-1",
           selected ? "border-solid border-blue-500" : "border-transparent",
         )}
-        disabled={disabled || undefined}
+        disabled={disabled}
+        aria-disabled={disabled}
         title={`${name}${disabled ? " (Coming soon)" : ""}`}
+        aria-label={`${name}${disabled ? " (Coming soon)" : ""}`}
       >
         {<Icon />}
         <div className="sr-only">
