@@ -8,14 +8,15 @@ interface ModeListItemProps {
   description: string;
   onClick: () => void;
   selected: boolean;
+  disabled?: boolean;
 }
 
 const size = 40;
 
-function handleIconClass(selected: boolean) {
+function handleIconClass(selected: boolean, disabled?: boolean) {
   return classNames(
     selected ? "text-gray-500" : "text-gray-300",
-    "hover:text-gray-500",
+    disabled ? "cursor-not-allowed" : "hover:text-gray-500",
   );
 }
 
@@ -25,23 +26,30 @@ export const ModeListItem: React.FC<ModeListItemProps> = ({
   description,
   onClick,
   selected,
+  disabled = false,
 }) => {
   const Icon = useMemo(() => {
     switch (icon) {
       case "script":
         return () => (
-          <ScrollText className={handleIconClass(selected)} size={size} />
+          <ScrollText
+            className={handleIconClass(selected, disabled)}
+            size={size}
+          />
         );
       case "setting":
         return () => (
           <ChartColumnStacked
-            className={handleIconClass(selected)}
+            className={handleIconClass(selected, disabled)}
             size={size}
           />
         );
       case "timeline":
         return () => (
-          <Workflow className={handleIconClass(selected)} size={size} />
+          <Workflow
+            className={handleIconClass(selected, disabled)}
+            size={size}
+          />
         );
       default:
         return () => <Ban className={handleIconClass(selected)} size={size} />;
@@ -55,6 +63,10 @@ export const ModeListItem: React.FC<ModeListItemProps> = ({
           "box-border border-l-4 p-1",
           selected ? "border-solid border-blue-500" : "border-transparent",
         )}
+        disabled={disabled}
+        aria-disabled={disabled}
+        title={`${name}${disabled ? " (Coming soon)" : ""}`}
+        aria-label={`${name}${disabled ? " (Coming soon)" : ""}`}
       >
         {<Icon />}
         <div className="sr-only">
