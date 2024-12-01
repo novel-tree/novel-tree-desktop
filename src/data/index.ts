@@ -10,6 +10,9 @@ export const storageKeys = {
     items: "settings/items",
     mode: "settings/mode",
   },
+  scripts: {
+    editor: "scripts/editor",
+  },
 };
 
 export const getStorage = (key: string) => {

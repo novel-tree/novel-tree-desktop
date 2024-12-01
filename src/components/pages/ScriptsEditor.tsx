@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { debounce } from "lodash-es";
 import {
   Bold,
@@ -12,7 +12,6 @@ import {
   MapPin,
   NotepadText,
   Plus,
-  Save,
   Underline,
   Users,
 } from "lucide-react";
@@ -23,6 +22,8 @@ import { ContentHeaderBar } from "../Contents";
 import { IconButtonList, iIconButton } from "../Lists";
 import { Button, IconButton } from "../Buttons";
 import { VerticalDivider } from "../Dividers";
+import { useScriptsState } from "../../states/scripts";
+import { useModal } from "../../providers";
 
 function createIconButton(count: number): iIconButton[] {
   return Array.from({ length: count }, (_, i) => ({
@@ -74,8 +75,8 @@ export const ScriptsEditor = () => {
           </div>
           <Button variant="primary">
             <div className="flex items-center gap-2">
-              <Save className="h-4 w-4" />
-              <span className="">Save</span>
+              <Plus className="h-4 w-4" />
+              <span className="">Add</span>
             </div>
           </Button>
         </ContentHeaderBar>
